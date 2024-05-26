@@ -1,0 +1,27 @@
+[
+    {
+        "name": "First Session",
+        "text": "This is the journal entry for the first session.",
+        "date": "2023-05-01"
+    },
+    {
+        "name": "Second Session",
+        "text": "This is the journal entry for the second session.",
+        "date": "2023-05-15"
+    },
+    {
+        "name": "Third Session",
+        "text": "This is the journal entry for the third session.",
+        "date": "2023-06-01"
+    },
+    {
+        "name": "Fourth Session",
+        "text": "This is the journal entry for the fourth session.",
+        "date": "2023-06-15"
+    },
+    {
+        "name": "Fifth Session",
+        "text": "This is the journal entry for the fifth session.",
+        "date": "2023-07-01"
+    }
+]
