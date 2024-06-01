@@ -1,12 +1,15 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QDateTime
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QVBoxLayout,QHBoxLayout, QWidget, QLabel, QPushButton, QComboBox, QApplication, QSpacerItem, QSizePolicy
+from PyQt5.QtWidgets import QVBoxLayout,QHBoxLayout, QWidget, QLabel, QPushButton, QComboBox, QApplication, QSpacerItem, QSizePolicy, QMessageBox
 from base_window import BaseWindow
+import json
 
 class EmergencyAssistance(BaseWindow):
     def __init__(self):
         super().__init__()
         self.setStyleSheet("background-color: #3E721D;")
+
+        self.therapists = self.load_therapists()
 
         content_widget = QWidget()
         layout = QVBoxLayout(content_widget)
@@ -29,22 +32,19 @@ class EmergencyAssistance(BaseWindow):
 
         combo_row = QHBoxLayout()
         combo_row.addStretch()
+
         therapist_combo = QComboBox()
-        therapist_combo.addItems(["Dr. Jane Smith", "Dr. John Doe", "Dr. Emily Johnson"])
         therapist_combo.setStyleSheet("""
             background-color: white; 
             font-size: 17px; 
             padding: 15px; 
             border: 1px solid #3E721D;
             border-radius: 10px;
-            min-width: 300px;  /* Adjust the width as needed */
         """)
         therapist_combo.setFont(QFont('Arial', 16))
-        combo_row.addWidget(therapist_combo)
-        combo_row.addStretch()
-
-        therapist_layout.addItem(QSpacerItem(0, 10, QSizePolicy.Minimum, QSizePolicy.Fixed))
-        therapist_layout.addLayout(combo_row)
+        # therapist_combo.setFixedWidth(300)
+        therapist_combo.addItems([therapist['name'] for therapist in self.therapists])
+        therapist_layout.addWidget(therapist_combo)
 
         layout.addLayout(therapist_layout)
 
@@ -52,11 +52,26 @@ class EmergencyAssistance(BaseWindow):
 
         confirm_button = QPushButton("Confirm Appointment")
         confirm_button.setStyleSheet("background-color: #FFFFFF; color: black; font-size: 18px; padding: 20px; border-radius: 20px;")
+        confirm_button.clicked.connect(lambda: self.confirm_appointment(therapist_combo.currentText()))
         layout.addWidget(confirm_button, alignment=Qt.AlignCenter)
 
         layout.addItem(QSpacerItem(0, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
 
         self.addContent(content_widget)
+
+    def load_therapists(self):
+        with open('therapists.json', 'r') as file:
+            return json.load(file)
+
+    def confirm_appointment(self, therapist_name):
+        current_datetime = QDateTime.currentDateTime().toString(Qt.DefaultLocaleLongDate)
+        message = f"Therapist: {therapist_name}\nAppointment Time: {current_datetime}\n"
+        message_box = QMessageBox(self)
+        message_box.setWindowTitle("Appointment Confirmation")
+        message_box.setText(message)
+        message_box.setStandardButtons(QMessageBox.Ok)
+        message_box.addButton("Start Meeting", QMessageBox.AcceptRole)
+        message_box.exec_()
 
 if __name__ == '__main__':
     app = QApplication([])

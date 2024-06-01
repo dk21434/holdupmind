@@ -1,22 +1,25 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QComboBox, QTextEdit, QWidget, QSpacerItem, QSizePolicy
+from PyQt5.QtWidgets import QApplication, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QComboBox, QTextEdit, QWidget, QSpacerItem, QSizePolicy, QMessageBox
 from PyQt5.QtGui import QFont
 from base_window import BaseWindow
+import json
 
 class TherapistMatching(BaseWindow):
     def __init__(self):
         super().__init__()
         self.setStyleSheet("background-color: #3E721D;")
 
+        self.therapists = self.load_therapists()
+
         content_widget = QWidget()
         layout = QVBoxLayout(content_widget)
 
-        subtitle = QLabel("Find a Therapist")
-        subtitle.setAlignment(Qt.AlignCenter)
-        subtitle.setFont(QFont('Arial', 18))
-        subtitle.setStyleSheet("color: white;")
+        self.subtitle = QLabel("Find a Therapist")
+        self.subtitle.setAlignment(Qt.AlignCenter)
+        self.subtitle.setFont(QFont('Arial', 18))
+        self.subtitle.setStyleSheet("color: white;")
 
-        layout.addWidget(subtitle)
+        layout.addWidget(self.subtitle)
 
         layout.addItem(QSpacerItem(0, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
 
@@ -26,22 +29,23 @@ class TherapistMatching(BaseWindow):
         language_label = QLabel("Language:")
         language_label.setFont(QFont('Arial', 14))
         language_label.setStyleSheet("color: white;")
-        language_combo = QComboBox()
-        language_combo.addItems(["English", "Spanish", "French"])
-        language_combo.setStyleSheet("background-color: white; font-size: 14px; padding: 5px;")
-        language_combo.setFont(QFont('Arial', 16))
+        self.language_combo = QComboBox()
+        self.language_combo.addItems(["English", "Spanish", "French"])
+        self.language_combo.setStyleSheet("background-color: white; font-size: 14px; padding: 5px;")
+        self.language_combo.setFont(QFont('Arial', 16))
         language_row.addWidget(language_label)
-        language_row.addWidget(language_combo)
+        language_row.addWidget(self.language_combo)
         
         specialty_row = QHBoxLayout()
         specialty_label = QLabel("Specialty:")
         specialty_label.setFont(QFont('Arial', 14))
         specialty_label.setStyleSheet("color: white;")
-        specialty_combo = QComboBox()
-        specialty_combo.addItems(["Anxiety", "Depression", "Family Therapy"])
-        specialty_combo.setStyleSheet("background-color: white; font-size: 14px; padding: 5px;")
-        specialty_combo.setFont(QFont('Arial', 16))
-        specialty_row.addWidget(specialty_combo)
+        self.specialty_combo = QComboBox()
+        self.specialty_combo.addItems(["Anxiety", "Depression", "Family Therapy"])
+        self.specialty_combo.setStyleSheet("background-color: white; font-size: 14px; padding: 5px;")
+        self.specialty_combo.setFont(QFont('Arial', 16))
+        specialty_row.addWidget(specialty_label)
+        specialty_row.addWidget(self.specialty_combo)
         
         therapy_type_row = QHBoxLayout()
         therapy_type_label = QLabel("Therapy Type:")
@@ -100,11 +104,34 @@ class TherapistMatching(BaseWindow):
 
         find_button = QPushButton("Find Therapist!")
         find_button.setStyleSheet("background-color: #FFFFFF; color: black; font-size: 18px; padding: 20px; border-radius: 20px;")
+        find_button.clicked.connect(self.find_therapist)
         layout.addWidget(find_button, alignment=Qt.AlignCenter)
 
         layout.addItem(QSpacerItem(0, 20, QSizePolicy.Minimum, QSizePolicy.Expanding))
 
         self.addContent(content_widget)
+
+    def load_therapists(self):
+        # Load therapist data from JSON
+        with open('therapists.json', 'r') as file:
+            return json.load(file)
+
+    def find_therapist(self):
+        # Fetch selected values
+        language = self.language_combo.currentText()
+        specialty = self.specialty_combo.currentText()
+
+        # Filter therapists based on language and specialty
+        matches = [t for t in self.therapists if t['language'] == language and t['specialty'] == specialty]
+
+        # Display results or an error message
+        if matches:
+            info = "\n\n".join([f"Name: {t['name']}, Experience: {t['experience']}, Reviews: {t['reviews']}" for t in matches])
+            QMessageBox.information(self, "Matching Therapists", info)
+        else:
+            QMessageBox.warning(self, "No Matches", "No therapists found matching your criteria.")
+
+
 
 if __name__ == '__main__':
     app = QApplication([])
