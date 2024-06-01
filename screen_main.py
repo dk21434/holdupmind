@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayo
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from base_window import BaseWindow
+from therapist_matching import TherapistMatching
+from progress_tracking import ProgressTracking
 
 class ScreenMain(BaseWindow):
     def __init__(self):
@@ -25,8 +27,11 @@ class ScreenMain(BaseWindow):
 
         pick_therapist_btn = QPushButton("Pick a Therapist")
         pick_therapist_btn.setStyleSheet("background-color: #FFFFFF; color: black; font-size: 18px; padding: 20px; border-radius: 20px;")
+        pick_therapist_btn.clicked.connect(self.openTherapistMatching)
+
         your_progress_btn = QPushButton("Your Progress")
         your_progress_btn.setStyleSheet("background-color: #FFFFFF; color: black; font-size: 18px; padding: 20px; border-radius: 20px;")
+        your_progress_btn.clicked.connect(self.openProgress)
 
         button_layout = QHBoxLayout()
         button_layout.addWidget(pick_therapist_btn)
@@ -42,6 +47,14 @@ class ScreenMain(BaseWindow):
         layout.addStretch()
 
         self.addContent(content_widget)
+
+    def openTherapistMatching(self):
+        therapist_screen = TherapistMatching()
+        therapist_screen.show()
+
+    def openProgress(self):
+        progresss_screen = ProgressTracking()
+        progresss_screen.show()
 
 if __name__ == "__main__":
     app = QApplication([])
