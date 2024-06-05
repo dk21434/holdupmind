@@ -1,0 +1,74 @@
+[
+    {
+        "name": "Dr. John Doe",
+        "language": "English",
+        "specialty": "Anxiety",
+        "gender": "Male",
+        "experience": "10 years",
+        "location": "New York",
+        "reviews": "Highly recommended for anxiety issues."
+    },
+    {
+        "name": "Dr. Jane Smith",
+        "language": "French",
+        "specialty": "Depression",
+        "gender": "Female",
+        "experience": "8 years",
+        "location": "Paris",
+        "reviews": "Very empathetic and helpful."
+    },
+    {
+        "name": "Dr. Emily White",
+        "language": "English",
+        "specialty": "Family Therapy",
+        "gender": "Female",
+        "experience": "15 years",
+        "location": "London",
+        "reviews": "Great with family counseling."
+    },
+    {
+        "name": "Dr. Carlos Rivera",
+        "language": "Spanish",
+        "specialty": "Stress Management",
+        "gender": "Male",
+        "experience": "12 years",
+        "location": "Madrid",
+        "reviews": "Excellent support for stress and work-life balance."
+    },
+    {
+        "name": "Dr. Angela Merkel",
+        "language": "German",
+        "specialty": "Cognitive Behavioral Therapy",
+        "gender": "Female",
+        "experience": "20 years",
+        "location": "Berlin",
+        "reviews": "Deep understanding and practical approach."
+    },
+    {
+        "name": "Dr. Aarav Patel",
+        "language": "Hindi",
+        "specialty": "Mindfulness",
+        "gender": "Male",
+        "experience": "7 years",
+        "location": "Mumbai",
+        "reviews": "Helpful mindfulness techniques for daily life."
+    },
+    {
+        "name": "Dr. Mei Ling",
+        "language": "Chinese",
+        "specialty": "Geriatric Psychology",
+        "gender": "Female",
+        "experience": "25 years",
+        "location": "Shanghai",
+        "reviews": "Respectful and caring approach to elderly care."
+    },
+    {
+        "name": "Dr. Mohamed Al Fayed",
+        "language": "Arabic",
+        "specialty": "Adolescent Therapy",
+        "gender": "Male",
+        "experience": "9 years",
+        "location": "Cairo",
+        "reviews": "Strong rapport with teenagers and young adults."
+    }
+]
